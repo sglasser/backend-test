@@ -6,7 +6,7 @@ CREATE TABLE locations (
 CREATE TABLE tasks (
   id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   description VARCHAR(100) NOT NULL,
-
+  
   location_id INT(11) NOT NULL,
 
   FOREIGN KEY(location_id) REFERENCES locations(id) ON DELETE CASCADE
@@ -40,11 +40,22 @@ INSERT INTO tasks (description, location_id) VALUES
 ('Task 2', 2);
 
 INSERT INTO workers (username, hourly_wage) VALUES
-('Worker 1', 15.00);
+('Worker 1', 15.00),
+('Worker 2', 20.00),
+('Worker 3', 25.00);
 
+-- Worker 1 logs 5 entries for Task 1 and Task 2 at different locations
 INSERT INTO logged_time (time_seconds, task_id, worker_id) VALUES
 (3600, 1, 1), -- Worker 1 logs 1 hour for Task 1
 (1800, 2, 1), -- Worker 1 logs 30 minutes for Task 2
 (3600, 1, 1), -- Worker 1 logs another 1 hour for Task 1
 (1800, 2, 1), -- Worker 1 logs another 30 minutes for Task 2
 (3600, 1, 1); -- Worker 1 logs one more hour for Task 1
+
+-- Worker 2 logs 5 entries for Task 1 and Task 2 at different locations
+INSERT INTO logged_time (time_seconds, task_id, worker_id) VALUES
+(3600, 1, 2), -- Worker 2 logs 1 hour for Task 1
+(1800, 2, 2), -- Worker 2 logs 30 minutes for Task 2
+(3600, 1, 2), -- Worker 2 logs another 1 hour for Task 1
+(1800, 2, 2), -- Worker 2 logs another 30 minutes for Task 2
+(3600, 1, 2); -- Worker 2 logs one more hour for Task 1

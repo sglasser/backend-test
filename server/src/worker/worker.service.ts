@@ -1,9 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { CreateWorkerDto } from './dto/create-worker.dto';
-import { UpdateWorkerDto } from './dto/update-worker.dto';
 import { EntityManager, Repository } from 'typeorm';
 import { Worker } from './entities/worker.entity';
-import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class WorkerService {
@@ -15,7 +14,7 @@ export class WorkerService {
 
   async create(createWorkerDto: CreateWorkerDto) {
     const worker = new Worker(createWorkerDto)   
-    await this.entityManager.save(worker);
+    return await this.workerRepository.save(worker);
   }
 
   async findAll() {
@@ -23,35 +22,28 @@ export class WorkerService {
   }
 
   async findOne(id: number) {
-    return this.workerRepository.findOneBy({ id });
+    return await this.workerRepository.findOneBy({ id });
   }
 
-  //By worker - the total cost of that worker across all tasks and locations
-  async totalCost(workerId: number) {
-    // return await this.entityManager.query(`SELECT * FROM logged_time WHERE worker_id = ${workerId} AND location_id = ${locationId}`);
-    return this.entityManager.query(`
-      SELECT 
-        w.username,
-        SUM(w.hourly_wage * (lt.time_seconds / 3600)) AS total_cost
-      FROM 
+  //By worker - the total cost of workers across all tasks and locations
+  async findCost() {
+    return await this.entityManager.query(`
+      SELECT
+        w.id AS worker_id,
+        w.username AS worker_username,
+        ROUND(SUM((COALESCE(lt.time_seconds, 0) / 3600) * w.hourly_wage), 2) AS total_cost
+      FROM
         workers w
-      JOIN 
+      LEFT JOIN
         logged_time lt ON w.id = lt.worker_id
-      JOIN 
+      LEFT JOIN
         tasks t ON lt.task_id = t.id
-      JOIN 
-        locations l ON t.location_id = l.id
-      WHERE 
-        w.id  = ${workerId}
+      LEFT JOIN
+        locations loc ON t.location_id = loc.id
+      GROUP BY
+        w.id, w.username
+      ORDER BY
+        worker_id;
     `);
   }
-
-  // async update(id: number, updateWorkerDto: UpdateWorkerDto) {
-  //   const updatedWorker = new Worker(updateWorkerDto);
-  //   await this.entityManager.update(updatedWorker);
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} worker`;
-  // }
 }

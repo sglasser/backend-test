@@ -5,10 +5,10 @@ export class Worker {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ length: 30, unique: true, nullable: false })
   username: string;
 
-  @Column()
+  @Column('decimal', { precision: 5, scale: 2, nullable: false, default: 0 })
   hourly_wage: number;
 
   constructor(partial: Partial<Worker>) {

@@ -1,39 +1,32 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Query } from '@nestjs/common';
 import { WorkerService } from './worker.service';
 import { CreateWorkerDto } from './dto/create-worker.dto';
-import { UpdateWorkerDto } from './dto/update-worker.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { Throttle } from '@nestjs/throttler';
 
-@Controller('worker')
+@Controller('v1/workers') // Specify the API version number as 'v1' and the table name as 'workers'
+@UseGuards(AuthGuard)
 export class WorkerController {
   constructor(private readonly workerService: WorkerService) {}
 
   @Post()
   async create(@Body() createWorkerDto: CreateWorkerDto) {
-    return this.workerService.create(createWorkerDto);
+    return await this.workerService.create(createWorkerDto);
   }
 
   @Get()
   async findAll() {
-    return this.workerService.findAll();
+    return await this.workerService.findAll();
+  }
+
+  @Throttle({default: { limit: 2, ttl: 1000}})
+  @Get('cost')
+  async findCost(@Query('completedTasks') completedTasks?: boolean, @Query('notCompletedTasks') notCompletedTasks?: boolean) {
+    return await this.workerService.findCost();
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return this.workerService.findOne(+id);
+    return await this.workerService.findOne(+id);
   }
-
-  @Get(':id/cost')
-  async findHours(@Param('id') id: number) {
-    return this.workerService.totalCost(id);
-  }
-
-  // @Patch(':id')
-  // async update(@Param('id') id: string, @Body() updateWorkerDto: UpdateWorkerDto) {
-  //   return this.workerService.update(+id, updateWorkerDto);
-  // }
-
-  // @Delete(':id')
-  // async remove(@Param('id') id: string) {
-  //   return this.workerService.remove(+id);
-  // }
 }
