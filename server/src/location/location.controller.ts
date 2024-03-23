@@ -33,7 +33,7 @@ export class LocationController {
     return await this.locationService.findAll();
   }
 
-  // GET /v1/locations/cost?completedTasks=true&unCompletedTasks=true&locations=1,2,3,4,5,6,7,8,9,10
+  // GET api/v1/locations/cost?completedTasks=true&unCompletedTasks=true&locations=1,2,3,4,5,6,7,8,9,10
   @Throttle({ default: { limit: 2, ttl: 1000 } })
   @Get('cost')
   @Header('Cache-Control', 'no-cache')

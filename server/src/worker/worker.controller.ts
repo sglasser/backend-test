@@ -38,7 +38,7 @@ export class WorkerController {
 
   // url lengths are limited to 2048 characters, so we need to limit the number of query parameters (userIds in this case)
   // or use a POST request instead. For the sake of argument we'll assume we're limiting the number of users that can be queried
-  // GET /v1/workers/cost?completedTasks=true&unCompletedTasks=true&userId=1,2,3,4,5,6,7,8,9,10
+  // GET api/v1/workers/cost?completedTasks=true&unCompletedTasks=true&userId=1,2,3,4,5,6,7,8,9,10
   @Throttle({ default: { limit: 2, ttl: 1000 } })
   @Get('cost')
   @Header('Cache-Control', 'no-cache')

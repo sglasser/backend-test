@@ -68,9 +68,9 @@ localhost:3000/docs
 Sample API calls
 
 ```bash
-http://localhost:3000/v1/locations/cost?completedTasks=true&unCompletedTasks=true&locations=1,2,3,4,5
+http://localhost:3000/api/v1/locations/cost?completedTasks=true&unCompletedTasks=true&locations=1,2,3,4,5
 
-http://localhost:3000/v1/workers/cost?completedTasks=true&unCompletedTasks=true&userId=1,2,3,4
+http://localhost:3000/api/v1/workers/cost?completedTasks=true&unCompletedTasks=true&userId=1,2,3,4
 ```
 
 Additional response Headers to consider for security
