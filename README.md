@@ -22,7 +22,7 @@ To bring up the database:
 docker compose up -d db
 ```
 
-Once it's ready to go, you can run the schema migrator to build the schema:
+Once it's ready to go, you can run the schema migrator to build the schema and add sample data to the database:
 
 ```bash
 docker compose run migrate
@@ -35,3 +35,16 @@ by bringing the DB container down:
 docker compose down
 ```
 # backend-test
+
+There is very basic set of unit tests for worker.service.ts
+
+```bash
+npm run test
+```
+
+# api documentation
+Swagger docs are generated and can be found at:
+
+```bash
+localhost:3000/docs
+```
