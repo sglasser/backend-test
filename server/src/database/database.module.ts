@@ -16,8 +16,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         //synchronize: true, // Don't use this in production
       }),
       inject: [ConfigService],
-    })
-  ]
+    }),
+  ],
 })
-  
 export class DatabaseModule {}

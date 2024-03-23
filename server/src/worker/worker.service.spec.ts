@@ -12,12 +12,12 @@ describe('WorkerService', () => {
     findOneBy: jest.fn(),
     find: jest.fn(),
     totalCost: jest.fn(),
-  }
+  };
 
   const mockEntityManager = {
     query: jest.fn(),
     update: jest.fn(),
-  }
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -25,12 +25,13 @@ describe('WorkerService', () => {
         WorkerService,
         {
           provide: getRepositoryToken(Worker),
-          useValue: mockWorkerRepository
+          useValue: mockWorkerRepository,
         },
         {
-          provide: EntityManager, 
-          useValue: mockEntityManager
-        }],
+          provide: EntityManager,
+          useValue: mockEntityManager,
+        },
+      ],
     }).compile();
 
     service = module.get<WorkerService>(WorkerService);
@@ -55,7 +56,6 @@ describe('WorkerService', () => {
   });
 
   it('findAll => should return an array of user', async () => {
- 
     const worker1 = {
       id: 1,
       username: 'test1',
@@ -84,7 +84,7 @@ describe('WorkerService', () => {
     const worker = {
       id: 1,
       username: 'Test 1',
-      hourly_wage: 30.00,
+      hourly_wage: 30.0,
     };
 
     jest.spyOn(mockWorkerRepository, 'findOneBy').mockReturnValue(worker);
@@ -97,17 +97,17 @@ describe('WorkerService', () => {
   });
 
   it('totalCost => should return the total cost of all workers across all tasks and locations', async () => {
-    const worker1 =  {
-      "worker_id": 1,
-      "worker_username": "Worker 1",
-      "total_cost": "60.00"
-    }
+    const worker1 = {
+      worker_id: 1,
+      worker_username: 'Worker 1',
+      total_cost: '60.00',
+    };
 
     const worker2 = {
-      "worker_id": 2,
-      "worker_username": "Worker 2",
-      "total_cost": "80.00"
-    }
+      worker_id: 2,
+      worker_username: 'Worker 2',
+      total_cost: '80.00',
+    };
 
     const workerCosts = [worker1, worker2];
 

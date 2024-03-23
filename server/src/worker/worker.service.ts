@@ -6,32 +6,32 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class WorkerService {
-
   constructor(
     @InjectRepository(Worker)
     private readonly workerRepository: Repository<Worker>,
-    private readonly entityManager: EntityManager) {}
+    private readonly entityManager: EntityManager,
+  ) {}
 
   async create(createWorkerDto: CreateWorkerDto) {
-    const worker = new Worker(createWorkerDto)   
+    const worker = new Worker(createWorkerDto);
     return await this.workerRepository.save(worker);
   }
 
-  async findAll(): Promise<Worker[]>{
+  async findAll(): Promise<Worker[]> {
     return await this.workerRepository.find();
   }
 
-  async findOne(id: number): Promise<Worker>{
+  async findOne(id: number): Promise<Worker> {
     return await this.workerRepository.findOneBy({ id });
   }
 
   /*
-  * returns the total cost of workers across all locations and tasks
-  * 
-  * @param workerIds - The workerIds to filter by
-  * @returns The total cost of the workers
-  */
-  async findCost(workerIds?: string): Promise<any[]>{
+   * returns the total cost of workers across all locations and tasks
+   *
+   * @param workerIds - The workerIds to filter by
+   * @returns The total cost of the workers
+   */
+  async findCost(workerIds?: string): Promise<any[]> {
     let sqlQuery = `
       SELECT
         w.id AS worker_id,

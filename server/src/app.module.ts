@@ -8,21 +8,25 @@ import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }), 
+    ConfigModule.forRoot({ isGlobal: true }),
     CacheModule.register(),
-    DatabaseModule, 
-    WorkerModule, 
+    DatabaseModule,
+    WorkerModule,
     LocationModule,
-    ThrottlerModule.forRoot([ {
-      name: 'short',
-      ttl: 1000,
-      limit: 5,
-    }]),
+    ThrottlerModule.forRoot([
+      {
+        name: 'short',
+        ttl: 1000,
+        limit: 5,
+      },
+    ]),
   ],
   controllers: [],
-  providers: [{
-    provide: 'APP_GUARD',
-    useClass: ThrottlerGuard,
-  }],
+  providers: [
+    {
+      provide: 'APP_GUARD',
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AppModule {}

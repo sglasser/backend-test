@@ -8,8 +8,8 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   app.enableCors();
   app.enableVersioning({
-    type: VersioningType.URI
-  })
+    type: VersioningType.URI,
+  });
   // Swagger API documentation
   if (process.env.NODE_ENV !== 'production') {
     const config = new DocumentBuilder()

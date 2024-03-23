@@ -6,12 +6,7 @@ import { Location } from './entities/location.entity';
 import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([
-      Location
-    ]),
-    CacheModule.register(),
-  ],
+  imports: [TypeOrmModule.forFeature([Location]), CacheModule.register()],
   controllers: [LocationController],
   providers: [LocationService],
 })

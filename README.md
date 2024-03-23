@@ -64,3 +64,6 @@ Swagger docs are generated and can be found at:
 ```bash
 localhost:3000/docs
 ```
+
+Additional response Headers to consider for security
+https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html
