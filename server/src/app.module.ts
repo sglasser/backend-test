@@ -6,10 +6,12 @@ import { ConfigModule } from '@nestjs/config';
 import { WorkerModule } from './worker/worker.module';
 import { LocationModule } from './location/location.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }), 
+    CacheModule.register(),
     DatabaseModule, 
     WorkerModule, 
     LocationModule,

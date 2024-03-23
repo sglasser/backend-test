@@ -20,6 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@nestjs/cache-manager": "^2.2.1",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.2.0",
     "@nestjs/core": "^10.0.0",
@@ -28,6 +29,7 @@
     "@nestjs/swagger": "^7.3.0",
     "@nestjs/throttler": "^5.1.2",
     "@nestjs/typeorm": "^10.0.2",
+    "cache-manager": "^5.4.0",
     "mariadb": "^3.3.0",
     "mysql": "^2.18.1",
     "reflect-metadata": "^0.2.0",

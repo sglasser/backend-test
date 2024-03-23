@@ -1,20 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { CreateLocationDto } from './dto/create-location.dto';
-import { UpdateLocationDto } from './dto/update-location.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, Repository } from 'typeorm';
 import { Location } from './entities/location.entity';
 
 @Injectable()
 export class LocationService {
-
   constructor(
     @InjectRepository(Location)
     private readonly locationRepository: Repository<Location>,
-    private readonly entityManager: EntityManager) {} 
+    private readonly entityManager: EntityManager,
+  ) {}
 
   async create(createLocationDto: CreateLocationDto) {
-    const location = new Location(createLocationDto)   
+    const location = new Location(createLocationDto);
     return await this.locationRepository.save(location);
   }
 
@@ -22,8 +21,15 @@ export class LocationService {
     return await this.locationRepository.find();
   }
 
-  async findCost() { 
-    return await this.entityManager.query(`
+  /*
+   * returns the total cost of workers for all tasks at a location
+   *
+   * @param locationIds - The locationIds to filter by
+   * @returns The total cost of labor at each location for all tasks at that location
+   */
+
+  async findCost(locationIds?: string) {
+    let sqlQuery = `
       SELECT
         loc.id AS location_id,
         loc.name AS location_name,
@@ -36,11 +42,23 @@ export class LocationService {
         logged_time lt ON t.id = lt.task_id
       LEFT JOIN
         workers w ON lt.worker_id = w.id
+    `;
+
+    // Conditionally add the WHERE clause based on locationIds
+    if (locationIds && locationIds.length > 0) {
+      sqlQuery += `
+        WHERE
+          loc.id in (${locationIds})
+      `;
+    }
+
+    sqlQuery += `
       GROUP BY
         loc.id, loc.name
       ORDER BY
         loc.id;
-    `);
+    `;
+    return await this.entityManager.query(sqlQuery);
   }
 
   async findOne(id: number) {
