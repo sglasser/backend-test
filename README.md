@@ -55,7 +55,7 @@ DB_PASS=limble-test-password
 ```
 ```bash
 docker compose up
-``
+```
 
 # API documentation
 
