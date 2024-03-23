@@ -42,7 +42,23 @@ There is very basic set of unit tests for worker.service.ts
 npm run test
 ```
 
+# Run API
+
+Create .env file in the server directory with 
+
+```bash
+DB_HOST=host.docker.internal
+DB_PORT=3307
+DB_NAME=limble
+DB_USER=limble-test
+DB_PASS=limble-test-password
+```
+```bash
+docker compose up
+``
+
 # API documentation
+
 Swagger docs are generated and can be found at:
 
 ```bash
