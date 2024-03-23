@@ -34,7 +34,7 @@ by bringing the DB container down:
 ```bash
 docker compose down
 ```
-# backend-test
+# Backend-test
 
 There is very basic set of unit tests for worker.service.ts
 
@@ -42,7 +42,7 @@ There is very basic set of unit tests for worker.service.ts
 npm run test
 ```
 
-# api documentation
+# API documentation
 Swagger docs are generated and can be found at:
 
 ```bash
