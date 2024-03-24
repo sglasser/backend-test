@@ -52,7 +52,7 @@ export class LocationController {
     if (locationsArray.some((id) => isNaN(+id))) {
       return new BadRequestException('Location ids must be numbers');
     }
-    
+
     //TODO probably want to add some sort of hashing function for the cache key to prevent long query strings being used as cache keys
     // not taking into account the includeCompleted and includeUncompleted query params as the current schema (tasks table) doesn't support them
     const cacheKey = `workerCost-${locations ? locations : 'all'}`;
@@ -72,6 +72,9 @@ export class LocationController {
   @Get(':id')
   @Header('Cache-Control', 'no-cache')
   async findOne(@Param('id') id: string) {
+    if (isNaN(+id)) {
+      return new BadRequestException('Location id must be a number');
+    }
     return await this.locationService.findOne(+id);
   }
 }

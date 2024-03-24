@@ -65,6 +65,12 @@ Swagger docs are generated and can be found at:
 localhost:3000/docs
 ```
 
+Simple Application Health Check is here:
+
+```bash
+localhost:3000/api/health
+```
+
 Sample API calls
 
 ```bash

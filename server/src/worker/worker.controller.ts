@@ -81,7 +81,7 @@ export class WorkerController {
   @Header('Cache-Control', 'no-cache')
   async findOne(@Param('id') id: string) {
     if (isNaN(+id)) {
-      return new BadRequestException('Id must be a number');
+      return new BadRequestException('Worker Id must be a number');
     }
     return await this.workerService.findOne(+id);
   }

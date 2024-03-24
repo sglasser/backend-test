@@ -5,6 +5,7 @@ import { WorkerModule } from './worker/worker.module';
 import { LocationModule } from './location/location.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { CacheModule } from '@nestjs/cache-manager';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { CacheModule } from '@nestjs/cache-manager';
         limit: 5,
       },
     ]),
+    HealthModule,
   ],
   controllers: [],
   providers: [
