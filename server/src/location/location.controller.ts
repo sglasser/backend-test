@@ -8,6 +8,7 @@ import {
   Inject,
   Header,
   BadRequestException,
+  NotFoundException,
 } from '@nestjs/common';
 import { LocationService } from './location.service';
 import { CreateLocationDto } from './dto/create-location.dto';
@@ -19,7 +20,7 @@ import { ApiQuery } from '@nestjs/swagger';
 @Controller('v1/locations') // Specify the API version number as 'v1' and the table name as 'locations'
 export class LocationController {
   constructor(
-    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+    @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
     private readonly locationService: LocationService,
   ) {}
 
@@ -75,6 +76,12 @@ export class LocationController {
     if (isNaN(+id)) {
       return new BadRequestException('Location id must be a number');
     }
-    return await this.locationService.findOne(+id);
+
+    const result = await this.locationService.findOne(+id);
+
+    if (!result) {
+      return new NotFoundException('Location not found');
+    }
+    return result;
   }
 }

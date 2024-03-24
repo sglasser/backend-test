@@ -9,6 +9,7 @@ import {
   Inject,
   Header,
   BadRequestException,
+  NotFoundException,
 } from '@nestjs/common';
 import { WorkerService } from './worker.service';
 import { CreateWorkerDto } from './dto/create-worker.dto';
@@ -83,6 +84,12 @@ export class WorkerController {
     if (isNaN(+id)) {
       return new BadRequestException('Worker Id must be a number');
     }
-    return await this.workerService.findOne(+id);
+
+    const result =  await this.workerService.findOne(+id);
+
+    if (!result) {
+      return new NotFoundException('Worker not found');
+    }
+    return result;
   }
 }

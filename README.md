@@ -36,7 +36,7 @@ docker compose down
 ```
 # Backend-test
 
-There is very basic set of unit tests for worker.service.ts
+There are some basic unit tests for worker.service.ts
 
 ```bash
 npm run test
