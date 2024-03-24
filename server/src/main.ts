@@ -4,9 +4,15 @@ import { AppModule } from './app.module';
 import { VersioningType } from '@nestjs/common';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: console, //TODO change this to winston or something more robust
+  });
   app.setGlobalPrefix('api');
-  app.enableCors();
+  app.enableCors({
+    origin: '*', //TODO  change this to frontend URL
+    methods: 'GET,POST,PUT,DELETE',
+    allowedHeaders: 'Content-Type, Authorization',
+  });
   app.enableVersioning({
     type: VersioningType.URI,
   });

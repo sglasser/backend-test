@@ -7,6 +7,7 @@ import {
   Query,
   Inject,
   Header,
+  BadRequestException,
 } from '@nestjs/common';
 import { LocationService } from './location.service';
 import { CreateLocationDto } from './dto/create-location.dto';
@@ -45,6 +46,13 @@ export class LocationController {
     @Query('includeCompleted') completedTasks?: boolean,
     @Query('includeUncompleted') uncompletedTasks?: boolean,
   ) {
+    // validate the locations query parameter if it exists
+    const locationsArray = locations ? locations.split(',') : [];
+
+    if (locationsArray.some((id) => isNaN(+id))) {
+      return new BadRequestException('Location ids must be numbers');
+    }
+    
     //TODO probably want to add some sort of hashing function for the cache key to prevent long query strings being used as cache keys
     // not taking into account the includeCompleted and includeUncompleted query params as the current schema (tasks table) doesn't support them
     const cacheKey = `workerCost-${locations ? locations : 'all'}`;
