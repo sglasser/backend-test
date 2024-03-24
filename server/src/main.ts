@@ -2,12 +2,14 @@ import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { VersioningType } from '@nestjs/common';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: console, //TODO change this to winston or something more robust
   });
   app.setGlobalPrefix('api');
+  app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true}));
   app.enableCors({
     origin: '*', //TODO  change this to frontend URL
     methods: 'GET,POST,PUT,DELETE',
